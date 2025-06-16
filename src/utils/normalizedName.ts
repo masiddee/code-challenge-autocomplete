@@ -29,14 +29,14 @@ export const normalizedName = (user: UserResponse | null): NormalizedName | null
   if (nameArr.length === 2) {
     nName.first = nameArr[0]
     nName.last = nameArr[1]
-  } else {
+  } else if (nameArr.length > 2) {
     // Else, if they have 
     const title = nameArr.find(item => TITLES.some(_title => _title === item))
     const suffix = nameArr.find(item => SUFFIXES.some(_suffix => _suffix === item))
     const filteredNameArr = nameArr.filter(_ => _ !== title && _ !== suffix) // filter out any titles and suffixes
 
-    nName.first = filteredNameArr[0]
-    nName.last = filteredNameArr[1]
+    nName.first = filteredNameArr[0] // First item in filteredNameArr should be first name
+    nName.last = filteredNameArr.slice(1).join(' ') // Grabs the remaining items in array and joins them as the "last name". Should handle any middle names, etc.
     nName.title = title
     nName.suffix = suffix
   }
